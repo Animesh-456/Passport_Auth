@@ -1,13 +1,13 @@
 const express = require('express');
 const app = express();
-const { response } = require('express');
+// const { response } = require('express');
 var bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 const passportLocalMongoose = require('passport-local-mongoose');
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
@@ -36,7 +36,7 @@ const secretSchema = new mongoose.Schema({
 
 secretSchema.plugin(passportLocalMongoose);
 
-const Secret = mongoose.model("Secret", secretSchema);
+const Secret = new mongoose.model("Secret", secretSchema);
 
 passport.use(Secret.createStrategy());
 
@@ -71,9 +71,9 @@ app.post("/signup", function (req, res) {
             console.log(err);
             res.redirect("/signup");
         }else{
-            passport.authenticate("local")(req, res, function(){
-                res.redirect("/secret");
-            });
+            //passport.authenticate("local")(req, res, function(){
+                res.redirect("/login");
+            //});
         }
     });
 

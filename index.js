@@ -29,6 +29,7 @@ const secretSchema = new mongoose.Schema({
         unique: true,
         type: String,
         required: true,
+        // username:notnull,
     },
     Secret: Array,
     Password: String,
@@ -49,7 +50,15 @@ app.get("/signup", function (req, res) {
 
 app.get("/secret", function(req, res){
     if(req.isAuthenticated()){
-        res.render("secret");
+        Secret.find({username: req.session.passport.user}, (err,docs)=>{
+            if(err){
+                console.log(err);
+            }else{
+                res.render("secret", {data: docs});
+                console.log("The response:-",docs[0].username);
+            }
+        });
+        //console.log("The session is:- ",req.session); 
     }else{
         res.redirect("/login");
     }
